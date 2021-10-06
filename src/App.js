@@ -3,7 +3,7 @@ import Information from "./components/layout/information";
 import Login from "./components/layout/login";
 import NavBar from "./components/navBar";
 import { Switch, Route } from "react-router-dom";
-import RaportList from "./components/raportList";
+import RaportList from "./components/layout/raportList";
 
 function App() {
   return (

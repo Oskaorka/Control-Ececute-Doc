@@ -1,8 +1,8 @@
 import React from "react";
-import TableDoc from "./layout/tableDoc";
+import TableDoc from "../table/tableDoc";
 import { useParams } from "react-router-dom";
-import docData from "./fakeApi/lListPerson";
-import RaportData from "./raportData";
+import docData from "../fakeApi/lListPerson";
+import RaportData from "../table/raportData";
 const RaportList = () => {
   const params = useParams();
   const { id } = params;

@@ -1,31 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import TimerCount from "../utils/timerCount";
 import { Link } from "react-router-dom";
 const TableBody = ({ data }) => {
-  const [colorTable, setColorTable] = useState();
-  // const styletable = {
-  //   background: colorTable,
-  // };
-  // console.log(colorTable);
-  // <>
-  {
-    /* {TimerCount(el["period of execution"]).split(" ")[0] > 0
-      ? setColorTable("green")
-      : setColorTable("red")} */
-  }
   return (
     <tbody>
       {data.map((el, i) => (
-        <tr style={{ background: colorTable }} key={el.id}>
+        <tr
+          // className="rounded-pill"
+          style={
+            Number(TimerCount(el.periodOfExecution).split(" ")[0]) > 0
+              ? { background: "#63c27c" }
+              : { background: "tomato" }
+          }
+          key={el.id}
+        >
           <td>№ {i + 1}</td>
-          <td>{el["date doc"]}</td>
-          <td>{el["punct doc"]}</td>
-          <td>{el["name doc"]}</td>
-          <td>{el["type doc"]}</td>
-          <td>{el["name initiator"]}</td>
-          <td>{TimerCount(el["period of execution"])}</td>
+          <td>{el.dateDoc}</td>
+          <td>{el.punctDoc}</td>
+          <td>{el.nameDoc}</td>
+          <td>{el.typeDoc}</td>
+          <td>{el.nameInitiator}</td>
+          <td>{TimerCount(el.periodOfExecution)}</td>
 
-          <td>{el["name executor"]}</td>
+          <td>{el.nameExecutor}</td>
           <td>
             <Link
               to={`/${el.id}`}
@@ -36,8 +33,11 @@ const TableBody = ({ data }) => {
                 overflow: "hidden",
                 textOverflow: "ellipsis",
               }}
+              // className="link-dark"
+              className="link-dark"
+              // hover="link-danger"
             >
-              {el["execution order"]}
+              {el.executionOrder}
             </Link>
           </td>
         </tr>

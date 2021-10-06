@@ -1,7 +1,5 @@
 const TimerCount = (e) => {
-  // const TimerCount = (year, mounth, day) => {
   const dataTime = e.split(",");
-  // const dateEndTime = Date.parse(new Date(year, mounth - 1, day));
   const dateEndTime = Date.parse(
     new Date(dataTime[0], dataTime[1] - 1, dataTime[2])
   );
