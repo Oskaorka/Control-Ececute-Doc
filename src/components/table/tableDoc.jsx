@@ -1,23 +1,28 @@
 import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 import docTasks from "../fakeApi/lListPerson";
+import { Link } from "react-router-dom";
 
-const TableDoc = () => {
+const TableDoc = ({ isAdmin }) => {
   return (
-    <>
-      <Table striped bordered hover>
-        {/* <Table> */}
-        <TableHeader />
-        <TableBody data={docTasks} />
+    <div className="d-flex flex-column align-items-center m-4">
+      <Table striped bordered hover className="table">
+        <TableHeader stateBtn={isAdmin} />
+        <TableBody data={docTasks} stateBtn={isAdmin} />
       </Table>
-      <div className="m-5">
-        <Button variant="secondary" size="lg">
-          Large button
-        </Button>
-      </div>
-    </>
+      {isAdmin && (
+        <div className="m-5">
+          <Link
+            className="btn btn-secondary"
+            to="/createNewDataTable"
+            role="button"
+          >
+            Добавить данные в таблицу
+          </Link>
+        </div>
+      )}
+    </div>
   );
 };
 

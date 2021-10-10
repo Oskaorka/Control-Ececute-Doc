@@ -17,8 +17,8 @@ const NavBar = () => {
     <>
       <ul className="d-flex justify-content-around m-4 bg-secondary bg-gradien bg-opacity-10 p-4 shadow">
         {arraysLinks.map((link) => (
-          <li style={{ listStyle: "none" }}>
-            <Link key={link.description} style={styleLink} to={link.link}>
+          <li key={link.description} style={{ listStyle: "none" }}>
+            <Link style={styleLink} to={link.link}>
               {link.description}
             </Link>
           </li>
