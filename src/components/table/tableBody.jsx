@@ -2,6 +2,14 @@ import React from "react";
 import TimerCount from "../utils/timerCount";
 import { Link } from "react-router-dom";
 const TableBody = ({ data, stateBtn }) => {
+  // const tst = () => {
+  //   // console.log("tst");
+  //   if ("click") {
+  //     return { background: "tomato" };
+  //   }
+  //   console.log("None");
+  // };
+  // console.log(tst);
   return (
     <tbody>
       {data.map((el, i) => (
@@ -44,6 +52,8 @@ const TableBody = ({ data, stateBtn }) => {
           {stateBtn && (
             <td style={{ background: "#E2E3E5" }}>
               <button
+                // style={tst()}
+                // onClick={() => tst}
                 // style={{ background: "#bdbdbd" }}
                 className="btn hover btn-light p-1 m-1"
               >

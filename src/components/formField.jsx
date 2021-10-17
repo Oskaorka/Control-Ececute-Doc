@@ -10,12 +10,12 @@ const FormField = ({
   return (
     <div
       // style={{ width: "15%" }}
-      className="d-flex flex-column-reverse align-items-center m-4 "
+      className="d-flex flex-column-reverse align-items-center m-2"
     >
       {/* className="d-flex flex-column align-items-center p-4 mt-5" */}
 
       <input
-        // className="shadow"
+        className="p-1"
         style={styleInput}
         type="text"
         id={name}

@@ -5,11 +5,12 @@ import AdminPage from "../../adminPage";
 const Login = ({ isAdmin, toggleBool }) => {
   const [data, setData] = useState({ login: "", password: "" });
   const mainPass = [
-    { login: "RosgvardBoss", password: "0016reg51" },
+    // { login: "RosgvardBoss", password: "0016reg51" },
     // { login: "RosgvardBoss", password: "001reg51" },
     // { login: "RosgvardBoss", password: "0010reg51" },
     // { login: "2", password: "1" },
     // { login: "21", password: "11" },
+    { login: "1", password: "1" },
   ];
   const handleChange = ({ target }) => {
     setData((prevstate) => ({

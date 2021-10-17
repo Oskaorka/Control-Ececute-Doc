@@ -27,43 +27,50 @@ const CreateNewDataTable = () => {
               value={data.punctDoc}
               onChange={handleChange}
               nameLabel={"пункт док-та"}
-              description={"введите логин"}
+              description={"пункт 2.3.1"}
             />
             <FormField
               nameLabel={"название док-та"}
-              description={"введите логин"}
               name="nameDoc"
+              description={"Военный совет"}
             />
             <FormField
               nameLabel={"тип док-та"}
-              description={"введите логин"}
               name="typeDoc"
+              description={"распоряжение"}
             />
           </div>
           <div className="">
             <FormField
               nameLabel={"инициатор"}
-              description={"введите логин"}
+              description={"Пупкин А.А."}
               name="nameInitiator"
             />
             <FormField
               nameLabel={"срок исполнения До"}
               name="periodOfExecution"
-              description={"введите логин"}
+              description={"31.12.2021"}
               // description={"введите логин"}
             />
             <FormField
               nameLabel={"имя исполнителя"}
-              description={"введите логин"}
               name="nameExecutor"
+              description={"Вакутагин Г.З."}
             />
             {/* <FormField name="executionOrder" /> */}
           </div>
         </div>
-        <textarea
+        <div className="input-group m-4 ">
+          <span className="input-group-text">Описание документа</span>
+          <textarea
+            className="form-control"
+            aria-label="With textarea"
+          ></textarea>
+        </div>
+        {/* <textarea
           name="содержительная часть"
           placeholder="l;l;fksdflk"
-        ></textarea>
+        ></textarea> */}
         <button>Сохранить</button>
       </form>
     </div>
