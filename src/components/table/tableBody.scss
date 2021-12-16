@@ -1,0 +1,13 @@
+.dark {
+    white-space: nowrap;
+    color: #000000;
+    //   opacity: 1;
+    &:hover {
+        transition: all 2s easy;
+        // opacity: 0;
+        font-size: 1.1em;
+        font-weight: bold;
+        color: rgb(65, 78, 65);
+        white-space: normal;
+    }
+}

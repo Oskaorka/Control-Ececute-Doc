@@ -1,21 +1,31 @@
 import React from "react";
 import TableDoc from "../table/tableDoc";
 import { useParams } from "react-router-dom";
-import docData from "../fakeApi/lListPerson";
 import RaportData from "../table/raportData";
+import PropTypes from "prop-types";
+import { useDocData } from "../hooks/useDocData";
+import { useExecutor } from "../hooks/useExecutor";
+
 const RaportList = ({ isAdmin }) => {
-  const params = useParams();
-  const { id } = params;
-  const findeData = (id) => {
-    return docData.find((user) => user.id === id);
-  };
-  const user = findeData(id);
+    const { docData } = useDocData();
+    const { executor } = useExecutor();
 
-  return user !== undefined ? (
-    <RaportData data={user} />
-  ) : (
-    <TableDoc isAdmin={isAdmin} />
-  );
+    const params = useParams();
+
+    const { id } = params;
+    const findeData = (id) => {
+        return docData.find((user) => String(user.id) === id);
+    };
+
+    const user = findeData(id);
+
+    return user !== undefined ? (
+        <RaportData data={user} executor={executor} />
+    ) : (
+        <TableDoc isAdmin={isAdmin} users={docData} executor={executor} />
+    );
 };
-
+RaportList.propTypes = {
+    isAdmin: PropTypes.bool.isRequired
+};
 export default RaportList;
