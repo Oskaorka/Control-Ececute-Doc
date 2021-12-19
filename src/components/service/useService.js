@@ -1,19 +1,20 @@
 import httpService from "./httpService";
 
-const docDataEndPoint = "docData/";
+const loginEndPoint = "docData/";
 
-const docDataService = {
+const loginService = {
     get: async () => {
-        const { data } = await httpService.get(docDataEndPoint);
+        const { data } = await httpService.get(loginEndPoint);
         return data;
     },
     create: async (payload) => {
         const { data } = await httpService.put(
-            docDataEndPoint + payload.id,
+            loginEndPoint + payload._id,
             payload
         );
+        console.log(data);
         return data;
     }
 };
 
-export default docDataService;
+export default loginService;

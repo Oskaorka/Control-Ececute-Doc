@@ -22,6 +22,7 @@ http.interceptors.request.use(
 );
 
 function transformData(data) {
+    // console.log(data);
     return data && !data._id
         ? Object.keys(data).map((key) => ({
               ...data[key]
@@ -51,8 +52,8 @@ http.interceptors.response.use(
 );
 const httpService = {
     get: http.get,
-    post: http.get,
-    put: http.get,
-    delete: http.get
+    post: http.post,
+    put: http.put,
+    delete: http.delete
 };
 export default httpService;

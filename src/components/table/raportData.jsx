@@ -4,8 +4,6 @@ import TimerCount from "../utils/timerCount";
 import PropTypes from "prop-types";
 import Executor from "../layout/ui/executor";
 const RaportData = ({ data, executor }) => {
-    // console.log(data);
-    // const RaportData = ({ typeDoc }) => {
     const history = useHistory();
     const returnTable = () => {
         history.replace("/");
@@ -15,6 +13,8 @@ const RaportData = ({ data, executor }) => {
     const reversString = (string) => {
         return string.split(",").reverse().join(".");
     };
+    const currentColorRow =
+        num < 0 ? { color: "tomato", fontSize: "3em" } : { color: "grey" };
     return (
         <div className="d-flex flex-column align-items-center bg-secondary bg-gradien bg-opacity-10 shadow text-black p-5 m-4">
             <h1>от {data.dateDoc} года</h1>
@@ -29,15 +29,7 @@ const RaportData = ({ data, executor }) => {
                 <hr />
                 исполнить до {reversString(data.periodOfExecution)} года
             </h1>
-            <h1
-                style={
-                    num < 0
-                        ? { color: "tomato", fontSize: "3em" }
-                        : { color: "grey" }
-                }
-            >
-                до исхода осталось: {time}
-            </h1>
+            <h1 style={currentColorRow}>до исхода осталось: {time}</h1>
             <h1>
                 {/* исполнитель: */}
                 <hr />

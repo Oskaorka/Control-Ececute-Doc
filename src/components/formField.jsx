@@ -8,6 +8,9 @@ const FormField = ({
     nameLabel,
     description
 }) => {
+    // const handleChange = ({ target }) => {
+    //     onChange({ name: target.name, value: target.value });
+    // };
     return (
         <div
             // style={{ width: "15%" }}
@@ -22,6 +25,7 @@ const FormField = ({
                 id={name}
                 name={name}
                 value={value}
+                // onChange={handleChange}
                 onChange={onChange}
                 placeholder={description}
             />

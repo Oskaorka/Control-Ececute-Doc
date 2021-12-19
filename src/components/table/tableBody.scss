@@ -1,13 +1,18 @@
 .dark {
-    white-space: nowrap;
+    // white-space: nowrap;
     color: #000000;
+    display: block;
+    max-width: 30vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     //   opacity: 1;
     &:hover {
-        transition: all 2s easy;
+        // transition: all 2s easy;
         // opacity: 0;
-        font-size: 1.1em;
+        // font-size: 1.1em;
         font-weight: bold;
         color: rgb(65, 78, 65);
-        white-space: normal;
+        // white-space: normal;
     }
 }

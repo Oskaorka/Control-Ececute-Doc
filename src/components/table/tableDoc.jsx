@@ -8,17 +8,18 @@ import { paginate } from "../utils/paginate";
 import PropTypes from "prop-types";
 import ListGroupTask from "../listGroupTask";
 // import { useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const styleGrid = {
     gridTemplateColumns: "repeat(2, 1fr)",
     margin: "0 25px"
 };
 
-const TableDoc = ({ isAdmin, users, executor }) => {
+const TableDoc = ({ users, executor }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectExecutor, setSelect] = useState();
     // const [find, setFind] = useState();
-
+    const { isAdmin } = useAuth();
     const count = users.length;
     const pageSize = 5;
     const handlePageChange = (pageIndex) => {
@@ -54,7 +55,7 @@ const TableDoc = ({ isAdmin, users, executor }) => {
 
     const dataUserCrop = paginate(filteredExecutor, currentPage, pageSize);
     return (
-        <div className="d-grid " style={styleGrid}>
+        <div className="d-grid m-4" style={styleGrid}>
             {/* {count > 0 && ( */}
 
             <ListGroupTask
@@ -65,15 +66,18 @@ const TableDoc = ({ isAdmin, users, executor }) => {
             {/* )} */}
             {/* <div className="d-flex flex-row-reverse align-items-center m-4"> */}
             {filteredExecutor.length > 0 ? (
+                // <div className="m-4">
                 <Table striped bordered hover className="table">
                     <TableHeader stateBtn={isAdmin} />
                     <TableBody
                         data={dataUserCrop}
                         executor={executor}
                         stateBtn={isAdmin}
+                        // className="m-4"
                     />
                 </Table>
             ) : (
+                // </div>
                 <h1>Нет задач к исполнению</h1>
             )}
             <button
@@ -109,7 +113,7 @@ const TableDoc = ({ isAdmin, users, executor }) => {
     );
 };
 TableDoc.propTypes = {
-    isAdmin: PropTypes.bool.isRequired,
+    // isAdmin: PropTypes.bool.isRequired,
     users: PropTypes.array,
     executor: PropTypes.array
 };

@@ -14,7 +14,9 @@ export const DocDataProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
         getData();
+        // createData();
     }, []);
+    // console.log(docData);
     useEffect(() => {
         if (error !== null) {
             toast(error);
@@ -35,6 +37,15 @@ export const DocDataProvider = ({ children }) => {
             errorCatcher(error);
         }
     }
+    // async function createData() {
+    //     try {
+    //         const { content } = await docDataService.put();
+    //         setDocData(content);
+    //         setLoading(false);
+    //     } catch (error) {
+    //         errorCatcher(error);
+    //     }
+    // }
     return (
         <DocDataContext.Provider value={{ docData, isLoading }}>
             {children}

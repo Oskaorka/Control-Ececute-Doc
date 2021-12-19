@@ -20,7 +20,7 @@ const Executor = ({ id, executor, keys }) => {
             return null;
         });
 
-    return <td key={keys}>исполнитель: {name(id)}</td>;
+    return <span key={keys}>исполнитель: {name(id)}</span>;
 };
 Executor.propTypes = {
     id: PropTypes.oneOfType([

@@ -30,29 +30,31 @@ const TableBody = ({ data, stateBtn, executor }) => {
                         {/* {console.log(el.id)} */}
                     </td>
                     <td>{TimerCount(el.periodOfExecution)}</td>
-                    <Executor
-                        keys={el.id}
-                        id={el.nameExecutor}
-                        executor={executor}
-                    />
+                    <td>
+                        <Executor
+                            keys={el.id}
+                            id={el.nameExecutor}
+                            executor={executor}
+                        />
+                    </td>
                     <td style={{ maxWidth: "80vw", minWidth: "20vw" }}>
                         {/* <td style={{ width: "min-content", display: "block" }}> */}
 
                         <Link
                             to={`/${el.id}`}
-                            style={{
-                                display: "block",
-                                maxWidth: "30vw",
-                                // whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis"
-                                // linkDarkHover: {text-color: "red"},
-                            }}
+                            // style={{
+                            //     display: "block",
+                            //     maxWidth: "30vw",
+                            //     // whiteSpace: "nowrap",
+                            //     overflow: "hidden",
+                            //     textOverflow: "ellipsis"
+                            //     // linkDarkHover: {text-color: "red"},
+                            // }}
                             // className="link-dark"
                             className="dark"
                             // data-bs-toggle="tooltip"
-                            data-bs-html="true"
-                            title={el.executionOrder}
+                            // data-bs-html="true"
+                            // title={el.executionOrder}
                         >
                             {el.executionOrder}
                         </Link>

@@ -1,12 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 const ListGroupTask = ({ item, onItemSelect, selectExecutor }) => {
-    // console.log(item);
-    // const [selectExecutor, setSelect] = useState();
-    // const handleClick = (e) => {
-    //     // console.log(e);
-    //     setSelect(e.id);
-    // };
     return (
         <ul className="list-group" style={{ marginRight: "1em" }}>
             {Object.values(item).map((e) => (
