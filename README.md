@@ -1,3 +1,5 @@
+This is my Pet project. Hes about total control performance discipline for tasks
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
