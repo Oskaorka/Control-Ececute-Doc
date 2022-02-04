@@ -1,0 +1,6 @@
+{
+  "port": 3030,
+  "mongoUri": "mongodb+srv://Pavel:Q17198511kos11@cluster0.airya.mongodb.net/Main?retryWrites=true&w=majority"
+}
+
+
