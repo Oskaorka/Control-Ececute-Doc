@@ -1,5 +1,5 @@
 const express = require('express')
-const DataDoc = require('../modules/DataDoc')
+const DataDoc = require('../models/DataDoc')
 const router = express.Router({ mergeParams: true })
 
 router.get('/', async(req, res ) => {

@@ -1,5 +1,5 @@
 const express = require('express')
-const Executor = require('../modules/Executor')
+const Executor = require('../models/Executor')
 const router = express.Router({ mergeParams: true })
 
 router.get('/', async (req, res ) => {
