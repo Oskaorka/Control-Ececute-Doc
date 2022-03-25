@@ -1,26 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
-const TableHeader = ({ stateBtn }) => {
+import "./tableHeader.scss";
+import { useAuth } from "../hooks/useAuth";
+const TableHeader = () => {
+    const { currentUser } = useAuth();
     return (
-        <thead className="table-secondary text-center">
+        <thead className="theaderStyle">
             <tr>
+                <th>наименование документа</th>
                 <th>
                     № <nobr>док-та</nobr>
                 </th>
                 <th>дата документа</th>
                 <th>пункт</th>
-                <th>наименование документа</th>
-                <th>тип документа</th>
-                <th>инициатор</th>
+                <th>мероприятие</th>
+                <th>доложить на имя</th>
                 <th>срок исполнения</th>
+                {currentUser && currentUser.type === "admin" && (
+                    <th>удалить</th>
+                )}
                 <th>исполнитель</th>
-                <th>предписание к исполнеинию</th>
-                {stateBtn && <th></th>}
             </tr>
         </thead>
     );
 };
 TableHeader.propTypes = {
-    stateBtn: PropTypes.bool.isRequired
+    stateBtn: PropTypes.bool
 };
 export default TableHeader;

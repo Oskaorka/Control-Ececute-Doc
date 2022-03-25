@@ -1,6 +1,6 @@
 import httpService from "./httpService";
 
-const executorEndPoint = "executors/";
+const executorEndPoint = "executor/";
 
 const executorService = {
     get: async () => {

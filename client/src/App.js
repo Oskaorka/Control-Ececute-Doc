@@ -4,18 +4,22 @@ import Login from "./components/layout/login";
 import NavBar from "./components/navBar";
 import { Switch, Route } from "react-router-dom";
 import RaportList from "./components/layout/raportList";
-import CreateNewDataTable from "./components/createNewDataTable";
 import { DocDataProvider } from "./components/hooks/useDocData";
 import { ExecutorProvider } from "./components/hooks/useExecutor";
 import AuthProvider from "./components/hooks/useAuth";
 import AddDataProvider from "./components/hooks/useAddDocData";
+import AdminPanel from "./components/adminPanel";
+import "./App.scss";
+import LogOut from "./components/layout/logOut";
+import UserDataList from "./components/table/userDataList";
+import CreateNewDataTable from "./components/createNewDataTable";
 function App() {
     return (
         <>
-            <AddDataProvider>
+            <DocDataProvider>
                 <AuthProvider>
-                    <NavBar />
-                    <DocDataProvider>
+                    <AddDataProvider>
+                        <NavBar />
                         <ExecutorProvider>
                             <Switch>
                                 <Route
@@ -23,23 +27,29 @@ function App() {
                                     component={Information}
                                 />
                                 <Route
+                                    path="/AdminPanel/:type?"
+                                    component={AdminPanel}
+                                />
+                                <Route path="/logout" component={LogOut} />
+                                <Route
+                                    path="/userlist"
+                                    component={UserDataList}
+                                />
+                                <Route
                                     path="/createNewDataTable"
                                     component={CreateNewDataTable}
                                 />
-                                <Route
-                                    path="/login/:adminPage?"
-                                    component={Login}
-                                />
+                                <Route path="/login/:type?" component={Login} />
                                 <Route
                                     exact
-                                    path="/:id?"
+                                    path="/:_id?"
                                     component={RaportList}
                                 />
                             </Switch>
                         </ExecutorProvider>
-                    </DocDataProvider>
+                    </AddDataProvider>
                 </AuthProvider>
-            </AddDataProvider>
+            </DocDataProvider>
         </>
     );
 }

@@ -1,0 +1,39 @@
+.removeExecutorStyle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 350px;
+    background-color: #6b6869db;
+}
+.closeModal {
+    position: absolute;
+    top: 2%;
+    right: 1%;
+    background-color: #f29db1c4 !important;
+    color: #e0e0e0 !important;
+    // opacity: 0.7;
+    // border: none;
+}
+.selectContainer {
+    width: 350px;
+    label {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+        color: #e0e0e0;
+        font-size: 20px;
+    }
+}
+.btn-light {
+    margin-top: 40px;
+    width: 180px;
+}
+.hidden {
+    //  font-size: 40px;
+    display: none;
+}
+.show {
+    display: block;
+}

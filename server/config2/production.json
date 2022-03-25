@@ -1,0 +1,6 @@
+{
+  "port": 4000,
+  "mongoUri": "mongodb+srv://Pavel:Q17198511kos11@cluster0.bl5wl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "accessSecret": "secret access from backend",
+  "refreshSecret": "secret refresh from backend"
+}

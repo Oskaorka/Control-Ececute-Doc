@@ -1,7 +1,7 @@
 import httpService from "./httpService";
 
+/* const loginEndPoint = "docData/"; */
 const loginEndPoint = "docData/";
-
 const loginService = {
     get: async () => {
         const { data } = await httpService.get(loginEndPoint);

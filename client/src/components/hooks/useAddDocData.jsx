@@ -4,7 +4,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { setTokens } from "../service/localStorageService";
 import docDataService from "../service/docService";
-const httpAuth = axios.create();
+import configFile from "../../configFile.json";
+const httpAuth = axios.create({
+    baseURL: configFile.apiPath + "/auth/"
+});
 const AddDataDocContext = React.createContext();
 
 export const useAddData = () => {
@@ -15,41 +18,52 @@ const AddDataProvider = ({ children }) => {
     // const [isAdmin, setIsAdmin] = useState(false);
     const [error, setError] = useState(null);
 
-    async function signUp({ email, password, ...rest }) {
-        const keyFireBasePrivet = "AIzaSyBkGYFQ2v_cjCjL5K3IoGiREn2qOZXAsnk";
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${keyFireBasePrivet}`;
+    async function signUpData({ nameExecutor, ...rest }) {
+        const url = `signUpData`;
         try {
             const { data } = await httpAuth.post(url, {
-                email,
-                password,
-                returnSecureToken: true
+                ...rest
             });
-            console.log(data);
             setTokens(data);
-            await createUser({ _id: data.localId, email, ...rest });
-            // setIsAdmin(true);
-            console.log(data);
+            // console.log(nameExecutor);
+            await createData({ _id: data.userId, nameExecutor, ...rest });
+            // console.log(...rest);
         } catch (error) {
             errorCatcher(error);
             const { code, message } = error.response.data.error;
             console.log(code, message);
-            // console.log("false");
-            // setIsAdmin(false);
             if (code === 400) {
                 console.log("error");
-                // if (message === "INVALID_EMAIL") {
-                //     throw new Error("пользователь с таким Email не существует");
-                // }
-                // if (message === "INVALID_PASSWORD") {
-                //     throw new Error("Пароль введен некорректно");
-                // }
             }
         }
     }
-    async function createUser(data) {
+    async function updateData({ ...rest }) {
+        // console.log(rest);
+        const url = `updateData`;
         try {
-            const { content } = docDataService.create(data);
-            setUser(content);
+            const { data } = await httpAuth.post(url, {
+                ...rest
+            });
+            setTokens(data);
+            // console.log(data);
+            // console.log(nameExecutor);
+            // await createUser({ _id: data.userId, nameExecutor, ...rest });
+            // console.log(...rest);
+        } catch (error) {
+            errorCatcher(error);
+            const { code, message } = error.response.data.error;
+            console.log(code, message);
+            if (code === 400) {
+                console.log("error");
+            }
+        }
+    }
+
+    // console.log(updateData);
+    async function createData(data) {
+        try {
+            const content = await docDataService.update(data);
+            setUser((prevState) => [...prevState, content]);
             console.log(content);
         } catch (error) {
             errorCatcher(error);
@@ -66,7 +80,9 @@ const AddDataProvider = ({ children }) => {
         }
     }, [error]);
     return (
-        <AddDataDocContext.Provider value={{ signUp, currentUser }}>
+        <AddDataDocContext.Provider
+            value={{ signUpData, currentUser, updateData }}
+        >
             {children}
         </AddDataDocContext.Provider>
     );

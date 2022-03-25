@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import FormField from "./formField";
-import docDataService from "./service/docService";
-// import MultiSelectField from "./form/MultiSelectField";
 import { useExecutor } from "./hooks/useExecutor";
-import MultiSelectField from "./form/MultiSelectField";
+import MultiSelectField from "./form/multiSelectField";
+import { useAuth } from "./hooks/useAuth";
+import { useHistory } from "react-router-dom";
+import { useAddData } from "./hooks/useAddDocData";
+import { useDocData } from "./hooks/useDocData";
+import "./createNewDataTable.scss";
 const CreateNewDataTable = () => {
     const [data, setData] = useState({
+        numberDoc: "",
         punctDoc: "",
         dateDoc: "",
         nameDoc: "",
@@ -13,15 +17,19 @@ const CreateNewDataTable = () => {
         nameInitiator: "",
         periodOfExecution: "",
         executionOrder: "",
-        nameExecutor: []
+        nameExecutor: [],
+        inWork: []
     });
     const { executor } = useExecutor();
-    // console.log(executor);
+    const { currentUser } = useAuth();
+    const { signUpData } = useAddData();
+    const { getData } = useDocData();
+    const history = useHistory();
+
     const executorList = executor.map((q) => ({
         label: q.name,
-        value: q.id
+        value: q._id
     }));
-    // console.log(executorList[3].value);
     const [error, setError] = useState(null);
     useEffect(() => {
         if (error !== null) {
@@ -36,52 +44,83 @@ const CreateNewDataTable = () => {
             ...prevstate,
             [target.name]: target.value
         }));
-        // console.log(data);
     };
     const handleChangeForText = ({ target }) => {
         setData((prevstate) => ({
             ...prevstate,
             [target.name]: target.value
         }));
-        // console.log(data);
     };
+    const executorName = data.nameExecutor.map((q) => q.value);
 
-    const handleSubmit = async (e) => {
+    const convertTime = (time) => {
+        return time.split("-").reverse().join(".");
+    };
+    const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log(e);
-        // console.log();
-        // if (data.periodOfExecution) {
-        //
-        // }
-        const newData = {
-            ...data,
-            // periodOfExecution: data.periodOfExecution
-            //     .split(".")
-            //     .reverse()
-            //     .join(","),
-            id: getId,
-            nameExecutor: data.nameExecutor.map((q) => q.value)
-        };
-        // console.log(newData);
-        await docDataService.create(newData);
+        try {
+            const newData = {
+                ...data,
+                id: getId,
+                executorName,
+                inWork: executorName,
+                dateDoc: convertTime(data.dateDoc),
+                periodOfExecution: convertTime(data.periodOfExecution)
+            };
+            signUpData(newData);
+            history.push(history.push(`/userlist/${currentUser._id}`));
+            getData();
+        } catch (error) {
+            console.log(error);
+            console.log(error.message);
+        }
+        /*        finally {
+            setData({
+                punctDoc: "",
+                dateDoc: "",
+                nameDoc: "",
+                typeDoc: "",
+                nameInitiator: "",
+                periodOfExecution: "",
+                executionOrder: "",
+                nameExecutor: [],
+                inWork: []
+});
+        } */
+    };
+    const clickBack = () => {
+        history.push(`/userlist/${currentUser._id}`);
     };
     // нужно будет сделать валидацию вводу (правильно , неправильно , все ли данные введены и т.д.)
     return (
         <div className="m-4">
-            <h3>Вносим данные для отображения в таблице</h3>
+            <button className="btn btn-outline-secondary" onClick={clickBack}>
+                назад
+            </button>
+            <h3 className="text-center">
+                Вносим данные для отображения в таблице
+            </h3>
             <form
                 onSubmit={handleSubmit}
                 className="d-flex flex-column align-items-center"
             >
-                <div className="d-flex ">
-                    <div className="">
-                        {/* {console.log(data)} */}
+                <div className="d-flex flex-row justify-content-center flex-wrap">
+                    <div className="wrapper-field wrapper-field-left">
                         <FormField
-                            name="dateDoc"
-                            nameLabel={"дата документа в формате д.м.г"}
-                            value={data.dateDoc}
+                            nameLabel={"название док-та"}
+                            name="nameDoc"
                             onChange={handleChangeForText}
-                            description={"12.09.2021"}
+                            value={data.nameDoc}
+                            description={"Военный совет"}
+                            type="text"
+                        />
+                        <FormField
+                            name="numberDoc"
+                            value={data.numberDoc}
+                            onChange={handleChangeForText}
+                            nameLabel={"номер документа"}
+                            description={"шт 300/500-234"}
+                            type="text"
                         />
                         <FormField
                             name="punctDoc"
@@ -89,62 +128,54 @@ const CreateNewDataTable = () => {
                             onChange={handleChangeForText}
                             nameLabel={"пункт документа"}
                             description={"2.3.1"}
+                            type="text"
                         />
                         <FormField
-                            nameLabel={"название док-та"}
-                            name="nameDoc"
+                            name="dateDoc"
+                            nameLabel={"дата документа"}
+                            value={data.dateDoc}
                             onChange={handleChangeForText}
-                            value={data.nameDoc}
-                            description={"Военный совет"}
-                        />
-                        <FormField
-                            nameLabel={"тип док-та"}
-                            name="typeDoc"
-                            onChange={handleChangeForText}
-                            value={data.typeDoc}
-                            description={"распоряжение"}
+                            description={"12.09.2021"}
+                            type="date"
                         />
                     </div>
-                    <div className="">
+                    <div className="wrapper-field wrapper-field-right">
                         <FormField
                             onChange={handleChangeForText}
                             nameLabel={"инициатор"}
                             description={"Пупкин А.А."}
                             name="nameInitiator"
                             value={data.nameInitiator}
+                            type="text"
+                        />
+                        <FormField
+                            nameLabel={"вид доклада"}
+                            name="typeDoc"
+                            onChange={handleChangeForText}
+                            value={data.typeDoc}
+                            description={"пояснительная записка"}
+                            type="text"
                         />
                         <FormField
                             onChange={handleChangeForText}
-                            nameLabel={
-                                "срок исполнения в формате г.м.д 2021,31,12"
-                            }
+                            nameLabel={"исполнить до"}
                             name="periodOfExecution"
                             value={data.periodOfExecution}
                             description={"2021,31,12"}
-                            // description={"введите логин"}
+                            type="date"
                         />
-                        {/* <FormField
-                            onChange={handleChange}
-                            nameLabel={"выбрать исполнителя"}
-                            name="nameExecutor"
-                            value={data.nameExecutor}
-                            description={"ОМОН"}
-                        /> */}
-                        <MultiSelectField
-                            options={executorList}
-                            // options={executor}
-                            onChange={handleChange}
-                            name="nameExecutor"
-                            label="Выбрать исполнителя"
-                        />
-                        {/* <FormField name="executionOrder" /> */}
                     </div>
+                    <MultiSelectField
+                        options={executorList}
+                        onChange={handleChange}
+                        name="nameExecutor"
+                        label="Выбрать исполнителя"
+                    />
                 </div>
                 <div className="input-group m-4 ">
                     <span className="input-group-text">Описание документа</span>
                     <textarea
                         onChange={handleChangeForText}
-                        // nameLabel={"введите содержание задания"}
                         className="form-control"
                         aria-label="With textarea"
                         name="executionOrder"
@@ -152,11 +183,9 @@ const CreateNewDataTable = () => {
                         description={"описание задачи"}
                     ></textarea>
                 </div>
-                {/* <textarea
-          name="содержительная часть"
-          placeholder="l;l;fksdflk"
-        ></textarea> */}
-                <button>Сохранить</button>
+                <button className="btn btn-outline-secondary">
+                    Добавить данные в контроль
+                </button>
             </form>
         </div>
     );

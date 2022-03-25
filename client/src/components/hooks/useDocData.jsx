@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import docDataService from "../service/docService";
 import PropTypes from "prop-types";
+import sortData from "../utils/sortData";
+
 const DocDataContext = React.createContext();
 
 export const useDocData = () => {
@@ -9,9 +11,9 @@ export const useDocData = () => {
 };
 
 export const DocDataProvider = ({ children }) => {
-    const [docData, setDocData] = useState([]);
     const [error, setError] = useState(null);
     const [isLoading, setLoading] = useState(false);
+    const [docData, setDocData] = useState([]);
     useEffect(() => {
         getData();
     }, []);
@@ -29,15 +31,16 @@ export const DocDataProvider = ({ children }) => {
     async function getData() {
         try {
             const { content } = await docDataService.get();
-            setDocData(content);
+            const sortContent = sortData(content);
+            setDocData(sortContent);
             setLoading(true);
         } catch (error) {
             errorCatcher(error);
         }
     }
     return (
-        <DocDataContext.Provider value={{ docData, isLoading }}>
-            {children}
+        <DocDataContext.Provider value={{ docData, isLoading, getData }}>
+            {isLoading ? children : "loading data"}
         </DocDataContext.Provider>
     );
 };

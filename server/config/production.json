@@ -1,0 +1,6 @@
+{
+  "port": 4000,
+  "mongoUri": "mongodb://192.168.0.7:27017/test",
+  "accessSecret": "secret access from backend",
+  "refreshSecret": "secret refresh from backend"
+}

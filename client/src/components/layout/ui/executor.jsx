@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 const Executor = ({ id, executor, keys }) => {
     const name = (ID) =>
         executor.map((e) => {
-            if (e.id === ID) {
+            if (e._id === ID) {
                 return e.name;
             }
 
             if (typeof ID === "object") {
                 const namez = ID.map((elem) => {
-                    if (elem === e.id) {
+                    if (elem === e._id) {
                         return e.name + "; ";
                     }
                     return null;
@@ -27,7 +27,7 @@ Executor.propTypes = {
         PropTypes.node
     ]),
     executor: PropTypes.array,
-    keys: PropTypes.number
+    keys: PropTypes.string
 };
 export default Executor;
 // need refactoring function

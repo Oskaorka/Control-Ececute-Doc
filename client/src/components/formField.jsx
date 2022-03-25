@@ -6,14 +6,15 @@ const FormField = ({
     onChange,
     styleInput,
     nameLabel,
-    description
+    description,
+    type
 }) => {
     return (
         <div className="d-flex flex-column-reverse align-items-center m-2">
             <input
                 className="p-1"
                 style={styleInput}
-                type="text"
+                type={type}
                 id={name}
                 name={name}
                 value={value}
@@ -36,6 +37,7 @@ FormField.propTypes = {
     onChange: PropTypes.func,
     styleInput: PropTypes.object,
     nameLabel: PropTypes.string,
-    description: PropTypes.string
+    description: PropTypes.string,
+    type: PropTypes.string
 };
 export default FormField;

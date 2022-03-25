@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
-import FormField from "../formField";
-// import AdminPage from "../../adminPage";
-// import { useDocData } from "../hooks/useDocData";
-// import { useExecutor } from "../hooks/useExecutor";
 import { useAuth } from "../hooks/useAuth";
 import { validator } from "../utils/ validator";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import LoginFormUser from "./loginFormUser";
+import LoginFormAdmin from "./loginFormAdmin";
+import { useParams } from "react-router-dom";
 const Login = () => {
+    const { type } = useParams();
+    const [formType, setFormType] = useState(
+        type === "registerAdmin" ? type : "login"
+    );
     const [data, setData] = useState({
         email: "",
         password: "",
-        stayOn: false
+        formType
     });
     const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState(null);
     const history = useHistory();
-    // const { docData } = useDocData();
-    // const { executor } = useExecutor();
-    const { signUp } = useAuth();
+    const { signIn, signInAdmin } = useAuth();
 
+    const toggleFormType = (params) => {
+        setFormType((prevState) =>
+            prevState === "registerAdmin" ? "login" : "registerAdmin"
+        );
+    };
     const handleChange = ({ target }) => {
         setData((prevstate) => ({
             ...prevstate,
@@ -47,19 +53,31 @@ const Login = () => {
         return Object.keys(errors).length === 0;
     };
     const isValid = Object.keys(errors).length === 0;
-    // admin@rosgvard.ru   qaz2021
-    // admin@rosgv.ru 12345QAZ!2021
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
         try {
-            await signUp(data);
-            history.push("/createNewDataTable");
+            const newData = {
+                ...data,
+                formType
+            };
+            if (formType === "registerAdmin") {
+                await signInAdmin(newData);
+                return history.push("/");
+            }
+            if (formType === "login") {
+                await signIn(newData);
+                history.push("/information");
+            }
         } catch (error) {
             setErrors(error);
             setErrorMessage(error.message);
+        } finally {
+            setData({
+                email: "",
+                password: ""
+            });
         }
     };
     const inputstyle = {
@@ -68,58 +86,48 @@ const Login = () => {
         borderRadius: "12px",
         border: "none",
         outline: "none",
-        boxShadow: "1px 1px 14px #ff9494"
+        boxShadow: "1px 1px 14px #d1cbcb"
+        // boxShadow: "1px 1px 14px #ff9494"
     };
     return (
         <>
-            {/* {isAdmin ? (
-                <AdminPage
-                    isAdmin={isAdmin}
-                    users={docData}
-                    executor={executor}
-                />
-            ) : */}
-            (
             <div className="d-flex flex-column-reverse align-items-center m-4">
-                <form
-                    style={{ width: "15%" }}
-                    onSubmit={handleSubmit}
-                    className="d-flex flex-column align-items-center p-4 mt-5"
-                >
-                    {errorMessage && (
-                        <p className="text-danger">{errorMessage}</p>
-                    )}
-                    <FormField
-                        // className="d-flex flex-column align-items-center p-4 mt-5"
-                        name="email"
-                        value={data.email}
-                        onChange={handleChange}
-                        styleInput={inputstyle}
-                        nameLabel={"Логин"}
-                        description={"введите логин"}
-                    />
-                    <FormField
-                        name="password"
-                        value={data.password}
-                        onChange={handleChange}
-                        styleInput={inputstyle}
-                        nameLabel={"Пароль"}
-                        description={"введите пароль"}
-                    />
-                    <button
-                        style={{
-                            border: "none",
-                            boxShadow: "0px 0px 34px #ff9494"
-                        }}
-                        className="btn btn-outline-secondary mt-4 d-md-flex justify-content-md-center"
-                        type="submit"
-                        disabled={!isValid || errorMessage}
-                    >
-                        ввести данные
-                    </button>
-                </form>
+                {formType === "registerAdmin" ? (
+                    <>
+                        <p>
+                            Если ты администратор
+                            <a role="button" onClick={toggleFormType}>
+                                &nbsp; Войти
+                            </a>
+                        </p>
+                        <LoginFormAdmin
+                            handleChange={handleChange}
+                            handleSubmit={handleSubmit}
+                            errorMessage={errorMessage}
+                            data={data}
+                            inputstyle={inputstyle}
+                            isValid={isValid}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <p>
+                            Вход для пользователя
+                            <a role="button" onClick={toggleFormType}>
+                                &nbsp; Войти
+                            </a>
+                        </p>
+                        <LoginFormUser
+                            handleChange={handleChange}
+                            handleSubmit={handleSubmit}
+                            errorMessage={errorMessage}
+                            data={data}
+                            inputstyle={inputstyle}
+                            isValid={isValid}
+                        />
+                    </>
+                )}
             </div>
-            ){/* } */}
         </>
     );
 };

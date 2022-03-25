@@ -9,17 +9,20 @@ const TimerCount = (e) => {
     const hours = Math.floor((getTime / (1000 * 60 * 60)) % 24);
     const timer = (time) => {
         if (time === 1) {
-            return `${time} день`;
+            // return `${time} день`;
+            return `${time} д.`;
         }
         if (time > 1 && time < 5) {
-            return `${time} дня`;
+            // return `${time} дня`;
+            return `${time} д.`;
         }
         if (time > 4 || (25 && time < 21)) {
-            return `${time} дней`;
+            // return `${time} дней`;
+            return `${time} д.`;
         }
     };
     return deadline > 0 && deadline < 1
-        ? hours + " часов"
+        ? hours + " ч."
         : timer(Math.floor(deadline));
 };
 

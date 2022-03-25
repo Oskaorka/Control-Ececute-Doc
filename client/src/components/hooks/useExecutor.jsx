@@ -10,8 +10,8 @@ export const useExecutor = () => {
 
 export const ExecutorProvider = ({ children }) => {
     const [error, setError] = useState(null);
-    const [isLoading, setLoading] = useState(true);
-    const [executor, setExecutor] = useState([]);
+    const [isLoading, setLoading] = useState(false);
+    const [executor, setExecutor] = useState();
     useEffect(() => {
         getExecutor();
     }, []);
@@ -30,13 +30,14 @@ export const ExecutorProvider = ({ children }) => {
         try {
             const { content } = await executorService.get();
             setExecutor(content);
+            setLoading(true);
         } catch (error) {
             errorCatcher(error);
         }
     }
     return (
         <ExecutorContext.Provider value={{ isLoading, executor }}>
-            {children}
+            { isLoading ? children : "loading..." }
         </ExecutorContext.Provider>
     );
 };
