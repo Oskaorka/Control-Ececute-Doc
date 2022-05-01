@@ -37,7 +37,7 @@ export const ExecutorProvider = ({ children }) => {
     }
     return (
         <ExecutorContext.Provider value={{ isLoading, executor }}>
-            { isLoading ? children : "loading..." }
+            {isLoading ? children : "loading..."}
         </ExecutorContext.Provider>
     );
 };

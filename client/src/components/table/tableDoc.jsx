@@ -5,28 +5,46 @@ import Pagination from "../pagination";
 import { paginate } from "../utils/paginate";
 import PropTypes from "prop-types";
 import ListGroupTask from "../listGroupTask";
-// import SearchPanel from "../searchPanel";
 import "./tableDoc.scss";
 import RemoveFormExecutor from "../form/removeFormExecutor";
+// import parseDate from "../utils/parseDate";
+import { getExecutor } from "../store/executor";
+import { useSelector } from "react-redux";
+import { getDocData } from "../store/docData";
 
 const styleGrid = {
     gridTemplateColumns: "140px 1fr",
     margin: "0 25px"
 };
 
-const TableDoc = ({ docData, executor }) => {
+const TableDoc = () => {
+    const docData = useSelector(getDocData());
+    // const dispatch = useDispatch();
+    useEffect(() => {
+        // dispatch
+        // console.log(docData);
+    }, [docData]);
+    // const docDataLoading = useSelector(getDocDataLoadingStatus());
+    // const docDataStatus = useSelector(getDataStatus());
+    // const dispatch = useDispatch();
+    // useEffect(() => {
+    //     if (!docDataStatus) dispatch(loadDocDataList());
+    // }, []);
+    // if (!docDataStatus) return "loading Docdata";
+    // console.log(docDataStatus);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectExecutor, setSelect] = useState();
     const [selectData, setSelectData] = useState();
     const [count, setCount] = useState(docData.length);
     const [stateDispaly, setStateDispaly] = useState("hidden");
-    // const [searchQuery, setSearchQuery] = useState("");
 
+    const executor = useSelector(getExecutor());
+    // const executorLoading = useSelector(getExecutorLoadingStatus());
     const pageSize = 250;
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
-
+// console.log(executor);
     const handleNextPage = () => {
         setCurrentPage(currentPage + 1);
     };
@@ -44,22 +62,14 @@ const TableDoc = ({ docData, executor }) => {
         if (typeof elem.inWork === "object") {
             const getExecutor = elem.inWork.filter(
                 (executor) => executor === selectExecutor._id
-            );
+                );
             return getExecutor[0];
         }
         return elem.inWork === selectExecutor._id;
     };
-    // if (docData) {
-
-    const filteredExecutor =
-        //  searchQuery
-        //     ? docData.filter((data) =>
-        //           data.nameDoc
-        //               .toLowerCase()
-        //               .indexOf(searchQuery.toLowerCase() !== -1)
-        //       )
-        //     :
-        selectExecutor ? docData.filter((user) => findExecutor(user)) : docData;
+    const filteredExecutor = selectExecutor
+        ? docData.filter((user) => findExecutor(user))
+        : docData;
     useEffect(() => {
         setCount(filteredExecutor.length);
     }, [filteredExecutor.length]);
@@ -67,27 +77,33 @@ const TableDoc = ({ docData, executor }) => {
     const countTasks = dataUserCrop.filter((e) => {
         return e.inWork.length > 0;
     });
-    // }
+    // console.log(dataUserCrop);
+    // console.log(countTasks);
+    // console.log(docData);
     const removeExecutor = (e) => {
+        // console.log(e);
         setStateDispaly("show");
         setSelectData(e);
     };
-    // const handleSearch = ({ target }) => {
-    //     setSearchQuery(target.value);
-    //     console.log(searchQuery);
-    // };
-    // console.log(filteredExecutor);
-    // console.log(
-    //     docData.map((data) =>
-    //         // data.nameDoc.toLowerCase().indexOf(searchQuery.toLowerCase() !== -1)
-    //         data.nameDoc.toLowerCase().indexOf(searchQuery.toLowerCase() !== -1)
-    //     )
-    // );
+
+    // function dataSort(data) {
+    //     return data.sort(function (a, b) {
+    //         return (
+    //             parseDate(a.periodOfExecution) - parseDate(b.periodOfExecution)
+    //         );
+    //     });
+    // }
+// console.log(executorLoading);
+// console.log(docData);
+// const data = docData.filter(e => {
+//     return e.inWork.length > 0;
+// });
+// console.log(data);
+
     return (
         <>
             <div className="d-flex justify-content-around">
                 <div> Задач к исполнению всего {countTasks.length} </div>
-                {/* <SearchPanel onChange={handleSearch} value={searchQuery} /> */}
             </div>
             <div className="d-grid  m-4" style={styleGrid}>
                 <ListGroupTask
@@ -101,6 +117,8 @@ const TableDoc = ({ docData, executor }) => {
                     <table className="tableMain">
                         <TableHeader />
                         <TableBody
+                            // data={dataSort(dataUserCrop)}
+                            // data={docData}
                             data={dataUserCrop}
                             executor={executor}
                             removeExecutor={removeExecutor}

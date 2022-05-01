@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { validator } from "../utils/ validator";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import LoginFormUser from "./loginFormUser";
+// import LoginFormUser from "./loginFormUser";
 import LoginFormAdmin from "./loginFormAdmin";
-import { useParams } from "react-router-dom";
+// import { useSelector } from "react-redux";
+// import { getAdmin } from "../store/admin";
+// import { useParams } from "react-router-dom";
 const Login = () => {
-    const { type } = useParams();
-    const [formType, setFormType] = useState(
-        type === "registerAdmin" ? type : "login"
-    );
+    // const { type } = useParams();
+    const [formType] = useState("registerAdmin");
+    // const [formType, setFormType] = useState(
+    //     type === "registerAdmin" ? type : "login"
+    // );
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -20,11 +23,12 @@ const Login = () => {
     const history = useHistory();
     const { signIn, signInAdmin } = useAuth();
 
-    const toggleFormType = (params) => {
-        setFormType((prevState) =>
-            prevState === "registerAdmin" ? "login" : "registerAdmin"
-        );
-    };
+    // const admin = useSelector(getAdmin());
+    // const toggleFormType = (params) => {
+    //     setFormType((prevState) =>
+    //         prevState === "registerAdmin" ? "login" : "registerAdmin"
+    //     );
+    // };
     const handleChange = ({ target }) => {
         setData((prevstate) => ({
             ...prevstate,
@@ -64,6 +68,7 @@ const Login = () => {
             };
             if (formType === "registerAdmin") {
                 await signInAdmin(newData);
+                // console.log(admin);
                 return history.push("/");
             }
             if (formType === "login") {
@@ -92,24 +97,24 @@ const Login = () => {
     return (
         <>
             <div className="d-flex flex-column-reverse align-items-center m-4">
-                {formType === "registerAdmin" ? (
-                    <>
-                        <p>
+                {/* {formType === "registerAdmin" ? ( */}
+                <>
+                    {/* <p>
                             Если ты администратор
                             <a role="button" onClick={toggleFormType}>
                                 &nbsp; Войти
                             </a>
-                        </p>
-                        <LoginFormAdmin
-                            handleChange={handleChange}
-                            handleSubmit={handleSubmit}
-                            errorMessage={errorMessage}
-                            data={data}
-                            inputstyle={inputstyle}
-                            isValid={isValid}
-                        />
-                    </>
-                ) : (
+                        </p> */}
+                    <LoginFormAdmin
+                        handleChange={handleChange}
+                        handleSubmit={handleSubmit}
+                        errorMessage={errorMessage}
+                        data={data}
+                        inputstyle={inputstyle}
+                        isValid={isValid}
+                    />
+                </>
+                {/* ) : (
                     <>
                         <p>
                             Вход для пользователя
@@ -126,7 +131,7 @@ const Login = () => {
                             isValid={isValid}
                         />
                     </>
-                )}
+                )} */}
             </div>
         </>
     );

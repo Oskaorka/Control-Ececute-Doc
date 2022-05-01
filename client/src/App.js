@@ -1,26 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Information from "./components/layout/information";
 import Login from "./components/layout/login";
 import NavBar from "./components/navBar";
 import { Switch, Route } from "react-router-dom";
 import RaportList from "./components/layout/raportList";
-import { DocDataProvider } from "./components/hooks/useDocData";
-import { ExecutorProvider } from "./components/hooks/useExecutor";
 import AuthProvider from "./components/hooks/useAuth";
-import AddDataProvider from "./components/hooks/useAddDocData";
+// import AddDataProvider from "./components/hooks/useAddDocData";
 import AdminPanel from "./components/adminPanel";
 import "./App.scss";
 import LogOut from "./components/layout/logOut";
 import UserDataList from "./components/table/userDataList";
 import CreateNewDataTable from "./components/createNewDataTable";
+import { loadDocDataList } from "./components/store/docData";
+import { useDispatch } from "react-redux";
+import { loadExecutorList } from "./components/store/executor";
+import ExecutorsLoader from "./components/layout/ui/hoc/executorsLoader";
+import DocDataLoader from "./components/layout/ui/hoc/docDataLoader";
+import { loadAdminList } from "./components/store/admin";
+// import AdminsLoader from "./components/layout/ui/hoc/adminLoader";
 function App() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(loadDocDataList());
+        dispatch(loadExecutorList());
+        dispatch(loadAdminList());
+    }, []);
+
     return (
         <>
-            <DocDataProvider>
-                <AuthProvider>
-                    <AddDataProvider>
-                        <NavBar />
-                        <ExecutorProvider>
+            <DocDataLoader>
+                <ExecutorsLoader>
+                    {/* <AdminsLoader> */}
+                    <AuthProvider>
+                        {/* <AddDataProvider> */}
+                            <NavBar />
                             <Switch>
                                 <Route
                                     path="/information"
@@ -37,7 +50,8 @@ function App() {
                                 />
                                 <Route
                                     path="/createNewDataTable"
-                                    component={CreateNewDataTable}
+                                    // eslint-disable-next-line react/no-children-prop
+                                    children={ <CreateNewDataTable/> }
                                 />
                                 <Route path="/login/:type?" component={Login} />
                                 <Route
@@ -46,10 +60,11 @@ function App() {
                                     component={RaportList}
                                 />
                             </Switch>
-                        </ExecutorProvider>
-                    </AddDataProvider>
-                </AuthProvider>
-            </DocDataProvider>
+                        {/* </AddDataProvider> */}
+                    </AuthProvider>
+                    {/* </AdminsLoader> */}
+                </ExecutorsLoader>
+            </DocDataLoader>
         </>
     );
 }

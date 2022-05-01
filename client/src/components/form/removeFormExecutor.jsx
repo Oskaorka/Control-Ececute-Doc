@@ -1,20 +1,31 @@
 import React, { useState } from "react";
 import MultiSelectField from "./multiSelectField";
-import { useExecutor } from "../hooks/useExecutor";
 import "./removeFormExecutor.scss";
 import PropTypes from "prop-types";
-import { useAddData } from "../hooks/useAddDocData";
-import { useDocData } from "../hooks/useDocData";
+// import { useAddData } from "../hooks/useAddDocData";
+import { useDispatch, useSelector } from "react-redux";
+import { getExecutor } from "../store/executor";
+import { updateDocData } from "../store/docData";
+// import { useDispatch } from "react-redux";
+// import { loadDocDataList } from "../store/docData";
+//
+// import { useDocData } from "../hooks/useDocData";
 
+//
 const RemoveFormExecutor = ({ stateDispaly, setStateDispaly, selectData }) => {
     const [data, setData] = useState({
         inWork: []
     });
-    const { executor } = useExecutor();
-    const { updateData } = useAddData();
-    const { getData } = useDocData();
+    const dispatch = useDispatch();
+// useEffect(() => {}, [data]);
+    const executor = useSelector(getExecutor());
+    // const docData = useSelector(getDocData());
+    // const { updateData } = useAddData();
+    // const { getData } = useDocData();
+    // const dispatch = useDispatch();
 
     const handleChange = (target) => {
+        // console.log(target);
         setData((prevstate) => ({
             ...prevstate,
             [target.name]: target.value
@@ -58,12 +69,22 @@ const RemoveFormExecutor = ({ stateDispaly, setStateDispaly, selectData }) => {
         try {
             const newInWork = data.inWork.map((q) => q.value);
             const inWork = search(selectData.inWork, newInWork);
-            const newData = {
-                ...selectData,
-                inWork
-            };
-            updateData(newData);
-            getData();
+            // const newData = ;
+            // updateData(newData);
+            dispatch(
+                updateDocData({
+                    ...selectData,
+                    inWork
+                })
+                );
+                // dispatch(loadDocDataList());
+                // console.log(docData);
+                                // dispatch(loadDocDataList());
+                // dispatch(getDocData());
+            // useEffect(() => {
+            //     dispatch(loadDocDataList());
+            // }, []);
+            // getData();
         } catch (error) {
             console.log(error);
             console.log(error.message);
@@ -71,6 +92,8 @@ const RemoveFormExecutor = ({ stateDispaly, setStateDispaly, selectData }) => {
     };
     const hiddenPopap = () => {
         setStateDispaly("hidden");
+        //
+        // console.log(data);
     };
 
     return (

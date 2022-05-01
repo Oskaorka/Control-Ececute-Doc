@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-const Executor = ({ id, executor, keys }) => {
+import { useSelector } from "react-redux";
+import { getExecutor } from "../../store/executor";
+const Executor = ({ id, keys }) => {
+    const executor = useSelector(getExecutor());
     const name = (ID) =>
         executor.map((e) => {
             if (e._id === ID) {

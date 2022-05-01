@@ -1,13 +1,23 @@
 import React from "react";
 import { useHistory } from "react-router";
 import TimerCount from "../utils/timerCount";
-import PropTypes from "prop-types";
 import Executor from "../layout/ui/executor";
 import { useAuth } from "../hooks/useAuth";
 import getNumOrTime from "../utils/getResidualTime";
-const RaportData = ({ data, executor }) => {
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { getDocData } from "../store/docData";
+
+const RaportData = () => {
+    const docData = useSelector(getDocData());
+    const params = useParams();
+    const { _id } = params;
+    const findeData = (id) => {
+        return docData.find((user) => String(user._id) === id);
+    };
+    const data = findeData(_id);
+
     const { currentUser } = useAuth();
-    // console.log(currentUser);
     const history = useHistory();
     const returnTable = () => {
         if (currentUser && currentUser.type === "user") {
@@ -15,7 +25,6 @@ const RaportData = ({ data, executor }) => {
         } else {
             history.replace(`/`);
         }
-        // history.replace("/");
     };
 
     const reversString = (string) => {
@@ -40,11 +49,7 @@ const RaportData = ({ data, executor }) => {
             </p>
             <p className="fs-3">
                 исполнитель(и):{" "}
-                <Executor
-                    id={data.executorName}
-                    executor={executor}
-                    keys={data._id}
-                />
+                <Executor id={data.executorName} keys={data._id} />
             </p>
             <p className="fs-2" style={{ wordBreak: "break-all" }}>
                 Мероприятие: {data.executionOrder}
@@ -57,9 +62,5 @@ const RaportData = ({ data, executor }) => {
             </button>
         </div>
     );
-};
-RaportData.propTypes = {
-    data: PropTypes.object.isRequired,
-    executor: PropTypes.array.isRequired
 };
 export default RaportData;

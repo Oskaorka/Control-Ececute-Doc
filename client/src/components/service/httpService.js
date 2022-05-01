@@ -17,8 +17,8 @@ const authService = {
 };
 http.interceptors.request.use(
     async function (config) {
-         const expiresDate = localStorageService.getTokenExpiresDate();
-         const refreshToken = localStorageService.getRefreshToken();
+        const expiresDate = localStorageService.getTokenExpiresDate();
+        const refreshToken = localStorageService.getRefreshToken();
         if (configFile.isFireBase) {
             const containSlash = /\/$/gi.test(config.url);
             config.url =
@@ -34,6 +34,10 @@ http.interceptors.request.use(
                     ...config.params,
                     Authorization: `Bearer ${accessToken}`
                 };
+                // config.headers = {
+                //     ...config.headers,
+                //     Authorization: `Bearer ${accessToken}`
+                // };
             }
         }
         return config;

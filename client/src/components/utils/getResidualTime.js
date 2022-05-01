@@ -8,11 +8,13 @@ function getNumOrTime(time) {
         return deadline;
     }
     const styleEndTime = (color) => ({
-        padding: "0px",
+        padding: "10px",
         borderRadius: "15px",
-        boxShadow: `0px 0px 15px 15px ${color}`,
+        // boxShadow: `0px 0px 15px 15px ${color}`,
         background: color
+        // color: "aqua"
     });
+    // console.log(getDayCount(parseEndTime));
     if (getDayCount(parseEndTime) > 1) {
         return styleEndTime("#ffffff");
     }

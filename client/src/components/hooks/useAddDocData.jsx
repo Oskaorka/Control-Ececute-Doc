@@ -38,7 +38,7 @@ const AddDataProvider = ({ children }) => {
         }
     }
     async function updateData({ ...rest }) {
-        // console.log(rest);
+        console.log(rest);
         const url = `updateData`;
         try {
             const { data } = await httpAuth.post(url, {
@@ -62,7 +62,7 @@ const AddDataProvider = ({ children }) => {
     // console.log(updateData);
     async function createData(data) {
         try {
-            const content = await docDataService.update(data);
+            const content = await docDataService.create(data);
             setUser((prevState) => [...prevState, content]);
             console.log(content);
         } catch (error) {

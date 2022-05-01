@@ -4,6 +4,7 @@ import "./tableHeader.scss";
 import { useAuth } from "../hooks/useAuth";
 const TableHeader = () => {
     const { currentUser } = useAuth();
+    const administrator = currentUser && currentUser.type === "admin";
     return (
         <thead className="theaderStyle">
             <tr>
@@ -16,10 +17,13 @@ const TableHeader = () => {
                 <th>мероприятие</th>
                 <th>доложить на имя</th>
                 <th>срок исполнения</th>
-                {currentUser && currentUser.type === "admin" && (
+                {administrator && (
                     <th>удалить</th>
-                )}
+                    )}
                 <th>исполнитель</th>
+                    {administrator && (
+                        <th>редактировать</th>
+                    )}
             </tr>
         </thead>
     );

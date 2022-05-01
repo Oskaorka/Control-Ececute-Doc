@@ -14,7 +14,7 @@ const NavBar = () => {
     };
     const arraysLinks = [
         { link: "/", description: "Главная страница" },
-        { link: "/information", description: "Информация" },
+        // { link: "/information", description: "Информация" },
         // { link: "/informa", description: "Инфо" },
         { link: "/login", description: "Логин" }
     ];
@@ -41,9 +41,6 @@ const NavBar = () => {
                         </li>
                     ))}
                 </ul>
-                {/* <div className="d-flex"> */}
-
-                {/* </div> */}
             </div>
         </nav>
     );

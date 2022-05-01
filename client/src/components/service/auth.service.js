@@ -1,5 +1,5 @@
 import axios from "axios";
-import localStorageService from "./localStorage.service";
+import localStorageService from "./localStorageService";
 
 const httpAuth = axios.create({
     // baseURL: "https://identitytoolkit.googleapis.com/v1/"

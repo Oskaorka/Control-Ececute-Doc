@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import FormField from "./formField";
 import { useHistory } from "react-router-dom";
 import { validator } from "./utils/ validator";
-import { useExecutor } from "./hooks/useExecutor";
 import SelectField from "./form/selectField";
 import { useAuth } from "./hooks/useAuth";
 import CheckField from "./form/checkField";
+import { useSelector } from "react-redux";
+import { getExecutor } from "./store/executor";
 const FormRegisterUser = () => {
     const [data, setData] = useState({
         email: "",
@@ -18,7 +19,8 @@ const FormRegisterUser = () => {
     const [errorMessage, setErrorMessage] = useState(null);
     const history = useHistory();
     const { signUp, signUpAdmin, currentUser } = useAuth();
-    const { executor } = useExecutor();
+    const executor = useSelector(getExecutor());
+
     const executorList = executor.map((q) => ({
         label: q.name,
         value: q._id
